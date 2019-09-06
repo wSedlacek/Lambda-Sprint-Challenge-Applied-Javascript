@@ -17,7 +17,7 @@
 // </div>
 //
 // Create a card for each of the articles and add the card to the DOM.
-const Card = data => {
+const Card = (article, topic) => {
   const card = document.createElement('div');
   const cardHeadline = document.createElement('div');
   const cardAuthor = document.createElement('div');
@@ -29,10 +29,11 @@ const Card = data => {
   cardHeadline.className = 'headline';
   cardAuthor.className = 'author';
   cardAuthorImg.className = 'img-container';
+  card.setAttribute('data-topic', topic);
 
-  cardHeadline.textContent = data.headline;
-  cardAuthorImgContent.src = data.authorPhoto;
-  cardAuthorName.textContent = data.authorName;
+  cardHeadline.textContent = article.headline;
+  cardAuthorImgContent.src = article.authorPhoto;
+  cardAuthorName.textContent = article.authorName;
 
   card.append(cardHeadline);
   card.append(cardAuthor);
@@ -50,7 +51,7 @@ axios
   .then(response => {
     const articles = {};
     for (const topic in response.data.articles) {
-      articles[topic] = response.data.articles[topic].map(article => Card(article));
+      articles[topic] = response.data.articles[topic].map(article => Card(article, topic));
     }
 
     return articles;

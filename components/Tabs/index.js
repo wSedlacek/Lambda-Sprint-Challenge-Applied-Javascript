@@ -12,10 +12,24 @@ const Tab = topic => {
   const tab = document.createElement('div');
   tab.className = 'tab';
   tab.textContent = topic;
+
+  tab.addEventListener('click', () => {
+    Array.from(cards.children).forEach(card => {
+      if (topic === 'all') {
+        card.style = '';
+        return;
+      }
+
+      if (topic.includes(card.getAttribute('data-topic'))) card.style = '';
+      else card.style = 'display: none';
+    });
+  });
+
   return tab;
 };
 
 const topics = document.querySelector('.topics');
+topics.append(Tab('all'));
 
 axios
   .get('https://lambda-times-backend.herokuapp.com/topics')
