@@ -17,3 +17,58 @@
     <div class="right-button"> > </div>
   </div>
 */
+
+const Carousel = imgs => {
+  let index = 0;
+  const updateCarosel = carouselImgs => {
+    carouselImgs.forEach(
+      carouselImg => (carouselImg.style.transform = `translateX(${150 - index * 100}%)`)
+    );
+  };
+
+  const carousel = document.createElement('div');
+  const carouselLeft = document.createElement('div');
+  const carouselRight = document.createElement('div');
+
+  const carouselImgs = imgs.map(img => {
+    const carouselImg = document.createElement('img');
+    carouselImg.src = img;
+    return carouselImg;
+  });
+
+  carousel.className = 'carousel';
+  carouselLeft.className = 'left-button';
+  carouselRight.className = 'right-button';
+
+  carouselLeft.textContent = '<';
+  carouselRight.textContent = '>';
+
+  carouselLeft.addEventListener('click', () => {
+    index--;
+    if (index < 0) index = imgs.length - 1;
+    updateCarosel(carouselImgs);
+  });
+
+  carouselRight.addEventListener('click', () => {
+    index++;
+    if (index > imgs.length - 1) index = 0;
+    updateCarosel(carouselImgs);
+  });
+
+  updateCarosel(carouselImgs);
+  carousel.append(carouselLeft);
+  carousel.append(...carouselImgs);
+  carousel.append(carouselRight);
+
+  return carousel;
+};
+
+const carouselContainer = document.querySelector('.carousel-container');
+carouselContainer.append(
+  Carousel([
+    './assets/carousel/mountains.jpeg',
+    './assets/carousel/computer.jpeg',
+    './assets/carousel/trees.jpeg',
+    './assets/carousel/turntable.jpeg',
+  ])
+);
